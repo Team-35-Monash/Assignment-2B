@@ -2,9 +2,15 @@
 <html hola_ext_inject="disabled">
 <head>
 	<title></title>
+    <style type="text/css">
+      html, body { height: 100%; margin: 0; padding: 0; }
+      #map { height: 100%; }
+    </style>
 </head>
 <body>
-<p><input name="back" type="button" value="back" onClick="location.href='menu.html'"/>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;Current Run</p>
+<p><input name="back" type="button" value="back" onClick="location.href='menu.html'"/>
+
+<p style="text-align: center;">Current Run</p>
 
 <p style="text-align: center;">Time elapsed&nbsp;<input maxlength="10000" name="time" size="10" type="text" value="time" /></p>
 
@@ -14,12 +20,116 @@
 
 <p style="text-align: center;">Map</p>
 
-<p style="text-align: center;"><input name="start" type="button" value="start" />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<input name="stop" type="button" value="stop" /></p>
+<p style="text-align: center;"><input name="start" type="button" value="start" onClick="buttonChangerStart()"/>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<input name="stop" type="button" value="stop" onClick="buttonChangerStop()" onclick="saveToLocal"  /></p>
 
 <p style="text-align: center;">&nbsp;</p>
 
 <p style="text-align: center;">&nbsp;</p>
 
+     <div id="map"></div>
+    <script type="text/javascript">
+
+
+        //Used prac materials as template to insert map
+var firstCenter = {lat: 12, lng:12}   
+
+//Map initialisation        
+var map;
+        
+function initMap(){
+              map = new google.maps.Map(document.getElementById('map'), {
+              center: firstCenter,       
+              zoom: 17
+});
+}
+
+
+var index
+var arrayOfCoords = [  ]    
+var timeKeep = 0
+
+///Button activater
+    function buttonChangerStart(){
+        
+        index = 1}
+    function buttonChangerStop(){
+        
+        index = 0}
+            
+    //Location recording function activated by start click
+function error(){"Not enough hardware"}
+                
+setInterval(    
+    function locationRecorder(){
+        if (index ==1){
+            
+            timeKeep = timeKeep + 2.5
+            
+            navigator.geolocation.getCurrentPosition(showPosition, error, {maximumAge:600000, timeout:5000, enableHighAccuracy: true})
+            
+            function showPosition(position){
+            
+                var coordinates1 = position.coords;
+                var latitude = position.coords.latitude
+                var longitude = position.coords.longitude
+            
+                var newCoord = {lat:latitude, lng:longitude}
+          
+                arrayOfCoords.push(newCoord)
+                map.setCenter(newCoord)
+            }
+            
+            var path = new google.maps.Polyline({
+            path: arrayOfCoords,
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2.0
+            });
+            
+            
+            path.setMap(map);    
+            
+            var marker = new google.maps.Marker({
+            position: arrayOfCoords[0],
+            map: map,
+            title: 'Start'
+            });
+            
+        }
+            
+            
+    
+console.log(arrayOfCoords)
+console.log(timeKeep)
+console.log(index)
+
+},2500);
+                
+   </script>
 <p>&nbsp;</p>
+
+   
+    
+    <script async defer
+  src="https://maps.googleapis.com/maps/api/js?v=3&amp;key=&amp;callback=initMap">
+
+
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    </script>
+    
+    
 </body>
 </html>
