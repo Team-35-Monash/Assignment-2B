@@ -26,12 +26,16 @@
 
 <p style="text-align: center;">&nbsp;</p>
 
-     <div id="map"></div>
-    <script type="text/javascript">
+<div id="map"></div>
+    
+<script type="text/javascript" ></script>    
+    
+<script type="text/javascript">
+      
 
-
-        //Used prac materials as template to insert map
+//Used prac materials as template to insert map
 var firstCenter = {lat: 12, lng:12}   
+
 
 //Map initialisation        
 var map;
@@ -43,7 +47,8 @@ function initMap(){
 });
 }
 
-
+var i = 0
+var distance = 0
 var index
 var arrayOfCoords = [  ]    
 var timeKeep = 0
@@ -56,22 +61,24 @@ var timeKeep = 0
         
         index = 0}
             
-    //Location recording function activated by start click
+
+
+//Location recording function activated by start click
 function error(){"Not enough hardware"}
                 
 setInterval(    
     function locationRecorder(){
         if (index ==1){
             
-            timeKeep = timeKeep + 2.5
+            timeKeep = timeKeep + 5
             
-            navigator.geolocation.getCurrentPosition(showPosition, error, {maximumAge:600000, timeout:5000, enableHighAccuracy: true})
+            navigator.geolocation.getCurrentPosition(showPosition, error, {enableHighAccuracy: true})
             
             function showPosition(position){
             
                 var coordinates1 = position.coords;
-                var latitude = position.coords.latitude
-                var longitude = position.coords.longitude
+                var latitude = position.coords["latitude"]
+                var longitude = position.coords["longitude"]
             
                 var newCoord = {lat:latitude, lng:longitude}
           
@@ -79,34 +86,74 @@ setInterval(
                 map.setCenter(newCoord)
             }
             
-            var path = new google.maps.Polyline({
-            path: arrayOfCoords,
-            geodesic: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
-            strokeWeight: 2.0
-            });
             
+          
+            //calculating length of lines
+            var tempDist = getDistance(arrayOfCoords[i],arrayOfCoords[i+1])
+            distance = tempDist + distance
+            i=i+1
+            
+            //Drawing path with polyline
+            var path = new google.maps.Polyline({
+                path: arrayOfCoords,
+                geodesic: true,
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 2.0
+               
+});
             
             path.setMap(map);    
             
-            var marker = new google.maps.Marker({
-            position: arrayOfCoords[0],
-            map: map,
-            title: 'Start'
+             var marker = new google.maps.Marker({
+             position: arrayOfCoords[0],
+             map: map,
+             title: 'Start'
             });
-            
-        }
-            
-            
-    
-console.log(arrayOfCoords)
-console.log(timeKeep)
-console.log(index)
-
-},2500);
                 
-   </script>
+}
+                
+        
+        
+console.log(distance)
+console.log(arrayOfCoords)    
+console.log(timeKeep)
+
+
+},5000);
+      
+//Haversine formula for calculating distances from coordinates 
+//Found on stack overflow http://stackoverflow.com/questions/1502590/calculate-distance-between-two-points-in-google-maps-v3
+//Mike Williams, Not sure weather I need to cite this as it is probably a part of the api which I can't access due to some https thing.
+//So I will cite it anyway just to be sure
+
+var rad = function(x) {
+  return x * Math.PI / 180;
+};
+
+function getDistance(p1, p2) {
+  var R = 6378137; // Earth’s mean radius in meter
+  var dLat = rad(p2.lat - p1.lat);
+  var dLong = rad(p2.lng - p1.lng);
+  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(rad(p1.lat)) * Math.cos(rad(p2.lat)) *
+    Math.sin(dLong / 2) * Math.sin(dLong / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var d = R * c;
+  return d; // returns the distance in meter
+};
+        
+
+        
+function saveToLocal(){
+    x = Date()
+    routePackage = [arrayOfCoords, x]
+    
+    localStorage.setItem('route', JSON.stringify(routePackage))
+                                                          
+}
+
+</script>
 <p>&nbsp;</p>
 
    
