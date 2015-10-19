@@ -20,7 +20,7 @@
 
 <p style="text-align: center;">Map</p>
 
-<p style="text-align: center;"><input name="start" type="button" value="start" onClick="buttonChangerStart()"/>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<input name="stop" type="button" value="stop" onClick="buttonChangerStop()" onclick="saveToLocal"  /></p>
+<p style="text-align: center;"><input name="start" type="button" value="start" onClick="buttonChangerStart()"/>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<input name="stop" type="button" value="stop" onClick="buttonChangerStop()" onclick="saveToLocal" onClick = "location.href='previousRuns.html'" /></p>
 
 <p style="text-align: center;">&nbsp;</p>
 
@@ -47,6 +47,7 @@ function initMap(){
 });
 }
 
+var speed = 0
 var i = 0
 var distance = 0
 var index
@@ -92,6 +93,7 @@ setInterval(
             var tempDist = getDistance(arrayOfCoords[i],arrayOfCoords[i+1])
             distance = tempDist + distance
             i=i+1
+            speed = distance/timeKeep
             
             //Drawing path with polyline
             var path = new google.maps.Polyline({
