@@ -23,7 +23,7 @@
   <header class="mdl-layout__header">
     <div class="mdl-layout__header-row">
       <!-- Title -->
-      <span class="mdl-layout-title">Run</span>
+      <span class="mdl-layout-title">Previous Run</span>
       <!-- Add spacer, to align navigation to the right -->
       <div class="mdl-layout-spacer"></div>
       <!-- Navigation. We hide it in small screens. -->
@@ -42,7 +42,7 @@
   </div>    
 
 
-<p id= "heading">Current Run</p>
+<p id= "heading">Previous Run</p>
 
 <p id="mainTextTime">Time elapsed: </p>
 
@@ -50,7 +50,9 @@
 
 <p id="mainTextSpeed">Average speed: </p>
 
-<p id="mainbutton"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" onClick="buttonChangerStart()"> Start Run </button> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" onClick="buttonChangerStop()"> Stop Run </button> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" onClick="resetRecords()"> Initialize/reset runs </button></p>
+<p id="calorie">Calories burned: </p>
+
+
 
 
      <div id="map"></div>
@@ -58,104 +60,90 @@
 
 
         //Used prac materials as template to insert map
-var firstCenter = {lat: 12, lng:12}   
+  
 
 //Map initialisation        
 var map;
-        
+var stats 
+stats = JSON.parse(localStorage.getItem('stats'))
+
+if(stats = [null, null,null]){
+stats = [0, 0, 0]
+}
+  
+console.log(stats)
+var data = JSON.parse(localStorage.getItem('prevRun'))
+console.log(data)
+var arrayOfCoords = data[0]
+
+
+
 function initMap(){
               map = new google.maps.Map(document.getElementById('map'), {
-              center: firstCenter,       
+              center: arrayOfCoords[0],       
               zoom: 17
 });
+    
+         var marker = new google.maps.Marker({
+             position: arrayOfCoords[0],
+             map: map,
+             title: 'Start'
+            });
+    
+            //Drawing path with polyline
+var path = new google.maps.Polyline({
+                path: arrayOfCoords,
+                geodesic: true,
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 2.0
+      
+});
+     
+    
 }
-
-
 
 
 var speed = 0
 var i = 0
 var distance = 0
 var index
-var arrayOfCoords = [  ]    
+
+console.log(arrayOfCoords)
 var timeKeep = -5
 
-///Button activater
-    function buttonChangerStart(){
-        
-        index = 1}
-    function buttonChangerStop(){
-        saveToLocal()
-        index = 0}
-            
-    //Location recording function activated by start click
-function error(){"Not enough hardware"}
                 
-setInterval(    
-    function locationRecorder(){
-        if (index ==1){
             
-            timeKeep = timeKeep + 5
-            document.getElementById("mainTextTime").innerHTML = "Time: " + timeKeep + " seconds";      
-            document.getElementById("mainTextDistance").innerHTML = " Distance: " + distance + " metres";   
-            document.getElementById("mainTextSpeed").innerHTML = "Speed: " + speed + " M/s";   
+timeKeep = (arrayOfCoords.length)*5
             
-            navigator.geolocation.getCurrentPosition(showPosition, error, {enableHighAccuracy: true})
-            
-            function showPosition(position){
-            
-                var coordinates1 = position.coords;
-                var latitude = position.coords["latitude"]
-                var longitude = position.coords["longitude"]
-            
-                var newCoord = {lat:latitude, lng:longitude}
-          
-                arrayOfCoords.push(newCoord)
-                map.setCenter(newCoord)
+      //calculating length of lines
+            for(i; i<(arrayOfCoords.length-1); i++){
+            console.log(arrayOfCoords.length)
+            var tempDist = getDistance(arrayOfCoords[i],arrayOfCoords[i+1])
+            console.log(tempDist)
+            distance = Math.round(tempDist + distance)
             }
             
             
-          
-            //calculating length of lines
-            var tempDist = getDistance(arrayOfCoords[i],arrayOfCoords[i+1])
-            distance = Math.round(tempDist + distance)
-            i=i+1
             speed = Math.round(distance/timeKeep)
             
-            //Drawing path with polyline
-    var path = new google.maps.Polyline({
-                path: arrayOfCoords,
-                geodesic: true,
-                strokeColor: '#FF0000',
-                strokeOpacity: 1.0,
-                strokeWeight: 2.0
-               
-});
+
+
+  
+//adding marker  
             
-            path.setMap(map);    
-            
-             new google.maps.Marker({
-             position: arrayOfCoords[0],
-             map: map,
-             title: 'Start'
-            });
+        
+//Calorie counter
+var calorieBurned  = (0.0215 * speed*3.6 - 0.1765 * speed*3.6 + 0.8710 *speed*3.6 + 1.4577) * stats[0] * timeKeep/3600
+
                 
-}
-                
-
-console.log(distance)
-console.log(arrayOfCoords)    
-console.log(timeKeep)
-
-
-},5000);
         
 //Haversine formula for calculating distances from coordinates 
 //Found on stack overflow http://stackoverflow.com/questions/1502590/calculate-distance-between-two-points-in-google-maps-v3
 //Mike Williams, Not sure weather I need to cite this as it is probably a part of the api which I can't access due to some https thing.
 //So I will cite it anyway just to be sure
 
-var rad = function(x) {
+function rad(x) {
   return x * Math.PI / 180;
 };
 
@@ -171,26 +159,10 @@ function getDistance(p1, p2) {
   return d; // returns the distance in meter
 };
                
-//save to local storage
-function resetRecords(){
-var x = []
-localStorage.setItem('routesArray', JSON.stringify(x))
-}
-
-function saveToLocal(){
-    
-    
-    var routeArray = JSON.parse(localStorage.getItem('routesArray'))
-    
-    var x = Date()
-    var routePackage = [arrayOfCoords, x]
-    routeArray.push(routePackage)
-    console.log(routePackage)
-    console.log(routeArray)
-    
-    localStorage.setItem('routesArray', JSON.stringify(routeArray))
-                                                          
-}
+        document.getElementById("mainTextTime").innerHTML = "Time: " + timeKeep + " seconds";      
+            document.getElementById("mainTextDistance").innerHTML = " Distance: " + distance + " metres";   
+            document.getElementById("mainTextSpeed").innerHTML = "Speed: " + speed + " M/s"; 
+            document.getElementById("calorie").innerHTML = "Calories burned: "+ calorieBurned;
 
 </script>
 
@@ -199,7 +171,7 @@ function saveToLocal(){
     
     <script async defer
   src="https://maps.googleapis.com/maps/api/js?v=3&amp;key=&amp;callback=initMap">
-
+  
 
         
     
