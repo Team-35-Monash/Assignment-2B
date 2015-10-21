@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+<title>Just Do It!</title>
+    
+<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.indigo-pink.min.css" />
+<script src="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+<link rel="stylesheet" type="text/css" href="style.css">
+    
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+
+</head>
+<body>
+
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title">Settings</span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+      <!-- Navigation. We hide it in small screens. -->
+      
+    </div>
+  </header>
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Menu</span>
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" href="menu.html"><i class="material-icons">home</i>Main</a>
+      <a class="mdl-navigation__link" href="currentRun.html"> <i class="material-icons">directions_run</i> New run</a>
+      <a class="mdl-navigation__link" href="previousRuns.html"><i class="material-icons">view_list</i>Past runs</a>
+      <a class="mdl-navigation__link" href="settings.html"><i class="material-icons">settings</i>Settings</a>
+      
+    </nav>
+  </div>
+  <main class="mdl-layout__content">
+    <div class="page-content">
+        
+        <form action="#">
+            <div class="mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample1" />
+                <label class="mdl-textfield__label" for="sample1" >Age...</label>
+            <span class="mdl-textfield__error">Input is not a number!</span>
+        
+        
+        <form action="#">
+            <div class="mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample2" />
+            <label class="mdl-textfield__label" for="sample2">Height...</label>
+            <span class="mdl-textfield__error">Input is not a number!</span>
+        
+        
+        <form action="#">
+            <div class="mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample3" />
+            <label class="mdl-textfield__label" for="sample3">Weight...</label>
+            <span class="mdl-textfield__error">Input is not a number!</span>
+        
+        
+            <p id="mainbutton"><br><br><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" onClick="retrieveVariables()"> Apply </button> </p>
+                
+    </div>
+</form>        
+        
+    </div>
+  </main>
+</div>
+<script>
+
+function retrieveVariables(){
+    var weight = 0
+    var age = 0 
+    var height = 0
+    
+     weight = Number(document.getElementById("sample3").value)
+     age = Number(document.getElementById("sample1").value)
+     height = Number(document.getElementById('sample2').value)
+
+var arrayOfStats = [ weight, age, height]  
+    console.log(arrayOfStats)
+
+localStorage.setItem('stats',JSON.stringify(arrayOfStats))
+
+
+
+
+}
+            
+            
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+</script>
+
+
+
+</body>
+</html>

@@ -1,23 +1,143 @@
-<!doctype html>
+<<!doctype html>
 <html hola_ext_inject="disabled">
 <head>
 	<title></title>
+   <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.indigo-pink.min.css" />
+<script src="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+<link rel="stylesheet" type="text/css" href="style.css">
+    
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+
+<style type="text/css">
+      html, body { height: 100%; margin: 0; padding: 0; }
+      #map { height: 100%; }
+    </style>
 </head>
 <body>
-<p><input name="back" type="button" value="back" onClick="location.href='menu.html'"/>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
 
-<p style="text-align: center;">Previous runs</p>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title">Run</span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+      <!-- Navigation. We hide it in small screens. -->
+      
+    </div>
+  </header>
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Menu</span>
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" href="menu.html"><i class="material-icons">home</i> Main</a>
+      <a class="mdl-navigation__link" href="currentRun.html"> <i class="material-icons">directions_run</i> New run</a>
+      <a class="mdl-navigation__link" href="previousruns.html"><i class="material-icons">view_list</i> Past runs</a>
+      <a class="mdl-navigation__link" href="settings.html"><i class="material-icons">settings</i> Settings</a>
+      
+    </nav>
+  </div>    
 
-<p style="text-align: center;"><input name="mostRecent" type="button" value="mostRecent" onClick="location.href='individualRuns.html'"/></p>
 
-<p><select name="runs" size="10"></select></p>
+<p id= "heading">Previous Runs</p>
+   
+    
+    
+    
+    
+    
+    
+    
+    
+<!-- Colored raised button -->
+    <p id="mainbutton"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-navigation__link"  onclick="save()" > <p id = "date"></p> </button> </p>
+    
+    <p id="mainbutton"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-navigation__link"  onclick="save1()" > <p id = "date2"></p> </button> </p>
+    
+    <p id="mainbutton"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-navigation__link" onclick="save2()"  > <p id = "date3"></p> </button> </p>
+    
+    <p id="mainbutton"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-navigation__link" onclick="save3()" > <p id = "date4"></p> </button> </p>
+    
+    <p id="mainbutton"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-navigation__link" onclick="save4()" > <p id = "date5"></p> </button> </p>
+    
+    <p id="mainbutton"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-navigation__link" onclick="save5()"> <p id = "date6"></p> </button> </p>
+    
+    <p id="mainbutton"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-navigation__link" onclick="save6()" > <p id = "date7"></p> </button> </p>
+    
+    <p id="mainbutton"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-navigation__link" onclick="save7()" > <p id = "date8"></p> </button> </p>
+    
+    <p id="mainbutton"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-navigation__link" onclick="save8()" > <p id = "date9"></p> </button> </p>
+    
+    <p id="mainbutton"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-navigation__link" onclick="save9()"> <p id = "date10"></p> </button> </p>
+    
 
-<p style="text-align: center;"><input name="highestSpeed" type="button" value="highestSpeed" "location.href='individualRuns.html'"/></p>
+<script>
+    
+var data = JSON.parse(localStorage.getItem('routesArray'))
+console.log(data)
 
-<p style="text-align: center;"><input name="longestRun" type="button" value="longestRun" "location.href='individualRuns.html'"/></p>
+function save(){
+    localStorage.setItem('prevRun',JSON.stringify(data[0]))
+    location.href="viewRun.html"
+}
+function save1(){
+    localStorage.setItem('prevRun',JSON.stringify(data[1]))
+    location.href="viewRun.html"
+}
+function save2(){
+    localStorage.setItem('prevRun',JSON.stringify(data[2]))
+    location.href="viewRun.html"
+}
+function save3(){
+    localStorage.setItem('prevRun',JSON.stringify(data[3]))
+    location.href="viewRun.html"
+}
+function save4(){
+    localStorage.setItem('prevRun',JSON.stringify(data[4]))
+    location.href="viewRun.html"
+}
+function save5(){
+    localStorage.setItem('prevRun',JSON.stringify(data[5]))
+    location.href="viewRun.html"
+}
+function save6(){
+    localStorage.setItem('prevRun',JSON.stringify(data[6]))
+    location.href="viewRun.html"
+}
+function save7(){
+    localStorage.setItem('prevRun',JSON.stringify(data[7]))
+    location.href="viewRun.html"
+}
+function save8(){
+    localStorage.setItem('prevRun',JSON.stringify(data[8]))
+    location.href="viewRun.html"
+}
+function save9(){
+    localStorage.setItem('prevRun',JSON.stringify(data[9]))
+    location.href="viewRun.html"
+}
+function save10(){
+    localStorage.setItem('prevRun',JSON.stringify(data[10]))
+    location.href="viewRun.html"
+}    
 
-<p>&nbsp;</p>
+document.getElementById("date").innerHTML = data[0][1]
+document.getElementById("date2").innerHTML = data[1][1]
+document.getElementById("date3").innerHTML = data[2][1]
+document.getElementById("date4").innerHTML = data[3][1]
+document.getElementById("date5").innerHTML = data[4][1]
+document.getElementById("date6").innerHTML = data[5][1]
+document.getElementById("date7").innerHTML = data[6][1]
+document.getElementById("date8").innerHTML = data[7][1]
+document.getElementById("date9").innerHTML = data[8][1]
+document.getElementById("date10").innerHTML = data[9][1]    
 
-<p>&nbsp;</p>
+
+</script>
+    
+    
 </body>
 </html>
